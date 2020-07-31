@@ -40,7 +40,7 @@
       - name: Distribute ssh keys
         authorized_key:
           user: "{{ item['username'] }}"
-          key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+          key: "{{ lookup('file', '~/.ssh/id_rsa.pub' | expanduser) }}"
         loop: "{{ users }}"
         when:
           - inventory_hostname in groups['webservers'] and item['uid'] | string | list | first == "1"
