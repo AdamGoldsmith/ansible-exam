@@ -34,8 +34,8 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 * Uses Vagrant + VirtualBox to create CentOS 7 Ansible targets.
 * They are named ansible[2-5].h1.local
-* 2 x network adatpers are created (NAT & Host-Only)
-* IP addresses 10.1.44.[2-5] are assigned to them
+* 2 x network adapters are created (NAT & Host-Only)
+* IP addresses 10.1.44.[2-5] are assigned to them respectively
 * ansible5.h1.local has a 10GB disk file created for use in a later task
 
 1. `cd vagrant`
@@ -120,13 +120,13 @@ __NB__ Not completed yet
 
 Useful commands
 
-* `ansible-doc`
+1. `ansible-doc`
 
-`ansible-doc <module_name>` - display module information
-`ansible-doc --list` - list all modules
-`ansible-doc --list --type lookup` - list all lookups
-`ansible-doc --list --type inventory` - list all inventory configurations
-`ansible-doc yaml --type inventory` - display yaml inventory source information
+* `ansible-doc <module_name>` - display module information
+* `ansible-doc --list` - list all modules
+* `ansible-doc --list --type lookup` - list all lookups
+* `ansible-doc --list --type inventory` - list all inventory configurations
+* `ansible-doc yaml --type inventory` - display yaml inventory source information
 
 ## References
 
