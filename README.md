@@ -30,6 +30,10 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
   * `sudo yum update -y`
   * `sudo reboot`
 
+### Clone the repo
+
+1. `git clone https://github.com/AdamGoldsmith/ansible-exam.git`
+
 ### Create Ansible target hosts
 
 * Uses Vagrant + VirtualBox to create CentOS 7 Ansible targets.
@@ -49,9 +53,8 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 3. `mkdir venvs`
 4. `python3 -m venv ~/venvs/ansible`
 5. `source ~/venvs/ansible/bin/activate`
-6. `git clone https://github.com/AdamGoldsmith/ex407.git`
-7. `cd plays`
-8. `pip install -r requirements.txt`
+6. `cd plays`
+7. `pip install -r requirements.txt`
 
 #### Task 2 - Ad-hoc commands
 1. `./adhoc.sh`

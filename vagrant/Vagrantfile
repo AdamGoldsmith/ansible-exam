@@ -1,0 +1,83 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby
+
+# The servers this vagrantfile creates will be managed by Ansible after they are created.
+# Copy the public SSH key from the Ansible server to the vagrant host for deployment.
+
+# Specify a custom Vagrant box
+# Linux: export BOX_NAME="<flavour>"
+# Windows PS: $env:BOX_NAME="<flavour>"
+BOX_NAME = ENV['BOX_NAME'] || "centos/7"
+
+# Vagrantfile API/syntax version.
+VAGRANTFILE_API_VERSION = "2"
+
+SSH_PUB_KEY="id_rsa.pub"
+INTERNAL_NET="10.1.44."
+DOMAIN=".hl.local"
+servers=[
+  {
+    :hostname => "ansible2" + DOMAIN,
+    :ip => INTERNAL_NET + "2",
+    :ssh_port => "22222",
+    :ram => 1024
+  },
+  {
+    :hostname => "ansible3" + DOMAIN,
+    :ip => INTERNAL_NET + "3",
+    :ssh_port => "22223",
+    :ram => 1024
+  },
+  {
+    :hostname => "ansible4" + DOMAIN,
+    :ip => INTERNAL_NET + "4",
+    :ssh_port => "22224",
+    :ram => 1024
+  },
+  {
+    :hostname => "ansible5" + DOMAIN,
+    :ip => INTERNAL_NET + "5",
+    :ssh_port => "22225",
+    :ram => 1024
+  }
+]
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.box = BOX_NAME
+      node.vm.hostname = machine[:hostname]
+      node.vm.network "private_network", ip: machine[:ip]
+      node.vm.network :forwarded_port, guest: 22, host: machine[:ssh_port], id: 'ssh'
+      node.vm.provider "virtualbox" do |vb|
+        vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+        vb.name = machine[:hostname]
+      end
+      node.vm.provision "file", source: SSH_PUB_KEY, destination: "~/.ssh/authorized_keys"
+    end
+  end
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.box = BOX_NAME
+      node.vm.hostname = machine[:hostname]
+      node.vm.network "private_network", ip: machine[:ip]
+      node.vm.network :forwarded_port, guest: 22, host: machine[:ssh_port], id: 'ssh'
+      node.vm.provider "virtualbox" do |vb|
+        if machine[:hostname] =~ /^ansible5/
+          file_to_disk = machine[:hostname] + ".mysql.vdi"
+          unless File.exist?(file_to_disk)
+            # 10 GB disk file
+            vb.customize ['createhd', '--filename', file_to_disk, '--size', 10 * 1024]
+          end
+          vb.customize ['storageattach', :id, '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk]
+        end
+        vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+        vb.name = machine[:hostname]
+      end
+      node.vm.provision "file", source: SSH_PUB_KEY, destination: "~/.ssh/authorized_keys"
+    end
+  end
+end
