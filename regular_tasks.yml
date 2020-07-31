@@ -1,0 +1,16 @@
+---
+
+  - name: Update cron
+    hosts: proxy
+    gather_facts: no
+    become: yes
+
+    tasks:
+
+      - name: Create cron job
+        cron:
+          name: "Log date"
+          user: root
+          minute: "0"
+          job: "/usr/bin/date >> /var/log/time.log"
+

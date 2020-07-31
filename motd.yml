@@ -1,0 +1,14 @@
+---
+
+  - name: Update motd
+    hosts: all
+    gather_facts: no
+    become: yes
+
+    tasks:
+
+      - name: Write custom motd file
+        copy:
+          dest: /etc/motd
+          content: "Welcome to {{ motd_host }} server\n"
+

@@ -1,0 +1,19 @@
+---
+# defaults file for sample-mysql
+
+part_dev: /dev/sdb
+part_num: 1
+part_flags:
+  - lvm
+part_size: 800MiB
+vg_name: vg_database
+lv_name: lv_mysql
+lv_size: "512"
+fs_mount: /mnt/mysql_backups
+fs_type: xfs
+mysql_packages:
+  - 'lvm*'
+  - mysql-community-server
+#  - python3-PyMySQL
+mysql_port: 3306
+

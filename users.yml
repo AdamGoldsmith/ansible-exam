@@ -1,0 +1,49 @@
+---
+
+  - name: Add users
+    hosts: all
+    gather_facts: no
+    become: yes
+
+    tasks:
+
+      - name: Read vars files
+        include_vars:
+          file: "{{ item }}"
+        loop:
+          - "vars/user_list.yml"
+          - "../secret.yml"
+
+      - name: Debug user data
+        debug:
+          var: "{{ item }}"
+        loop: "{{ users }}"
+        when:
+          #- inventory_hostname in groups['webservers'] and item['uid'] | string | regex_search('^1')
+          - inventory_hostname in groups['webservers'] and item['uid'] | string | list | first == "1"
+            or
+            inventory_hostname in groups['database'] and item['uid'] | string | list | first == "2"
+
+      - name: Create users
+        user:
+          name: "{{ item['username'] }}"
+          uid: "{{ item['uid'] }}"
+          groups: "wheel"
+          shell: "/bin/bash"
+          password: "{{ user_password | password_hash('sha512', 65534 | random(seed=inventory_hostname) | string) }}"
+        loop: "{{ users }}"
+        when:
+          - inventory_hostname in groups['webservers'] and item['uid'] | string | list | first == "1"
+            or
+            inventory_hostname in groups['database'] and item['uid'] | string | list | first == "2"
+          
+      - name: Distribute ssh keys
+        authorized_key:
+          user: "{{ item['username'] }}"
+          key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+        loop: "{{ users }}"
+        when:
+          - inventory_hostname in groups['webservers'] and item['uid'] | string | list | first == "1"
+            or
+            inventory_hostname in groups['database'] and item['uid'] | string | list | first == "2"
+

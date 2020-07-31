@@ -1,0 +1,21 @@
+---
+
+  - name: Create list of servers
+    # Run on all hosts to gather thier facts
+    hosts: all
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Create list from template
+        template:
+          src: templates/server_list.j2
+          dest: /etc/server_list.txt
+          owner: automation
+          mode: "0600"
+          setype: net_conf_t
+        loop: "{{ groups['database'] }}"
+        delegate_to: "{{ item }}"
+        run_once: yes
+

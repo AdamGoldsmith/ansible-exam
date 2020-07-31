@@ -1,0 +1,28 @@
+---
+
+  - name: Update SSH config
+    hosts: all
+    gather_facts: no
+    become: yes
+
+    tasks:
+
+#      - name: Debug Write custom motd file
+#        debug:
+#          msg: "Welcome to {{ motd_host }} server"
+
+      - name: Configure /etc/ssh/sshd_config
+        vars:
+          data:
+            - regex: '^\s*#?\s*Banner.*$'
+              string: 'Banner /etc/motd'
+            - regex: '^\s*#?\s*X11Forwarding.*$'
+              string: 'X11Forwarding no'
+            - regex: '^\s*#?\s*MaxAuthTries.*$'
+              string: 'MaxAuthTries 3'
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regex: "{{ item['regex'] }}"
+          line: "{{ item['string'] }}"
+        loop: "{{ data }}"
+

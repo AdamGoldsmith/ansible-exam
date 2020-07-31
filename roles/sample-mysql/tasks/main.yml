@@ -1,0 +1,99 @@
+---
+# tasks file for sample-mysql
+
+- name: Install software
+  yum:
+    name: "{{ mysql_packages }}"
+    state: present
+
+- name: Create primary partition
+  parted:
+    device: "{{ part_dev }}"
+    number: "{{ part_num }}"
+    flags: "{{ part_flags }}"
+    state: present
+    part_end: "{{ part_size }}"
+
+- name: DEBUG Create volume group
+  debug:
+    msg:
+      - "vg: {{ vg_name }}"
+      - "pvs: {{ part_dev }}{{ part_num }}"
+
+- name: Create volume group
+  lvg:
+    vg: "{{ vg_name }}"
+    pvs: "{{ part_dev }}{{ part_num }}"
+
+- name: Create logical volume
+  lvol:
+    vg: "{{ vg_name }}"
+    lv: "{{ lv_name }}"
+    size: "{{ lv_size }}"
+
+- name: Create filesystem
+  filesystem:
+    fstype: "{{ fs_type }}"
+    dev: "/dev/{{ vg_name }}/{{ lv_name }}"
+  register: fs_out
+
+- name: Debug fs_out
+  debug:
+    var: fs_out
+
+- name: Mount filesystem by lv device
+  mount:
+    path: "{{ fs_mount }}"
+    src: "/dev/{{ vg_name }}/{{ lv_name }}"
+    fstype: xfs
+    state: mounted
+
+- name: Configure firewall rules
+  vars:
+    fw_rules:
+      - service: "ssh"
+      - port: "{{ mysql_port }}/tcp"
+  firewalld:
+    port: "{{ item['port'] | default(omit) }}"
+    service: "{{ item['service'] | default(omit) }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ fw_rules }}"
+
+- name: Change MySQL root password
+  mysql_user:
+    name: root
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ database_password }}"
+    priv: '*.*:ALL'
+    state: present
+
+- name: Start MySQL
+  service:
+    name: mysql
+    enabled: yes
+    state: started
+
+- name: Create MySQL configuration file
+  template:
+    src: my.cnf.j2
+    dest: ~/my.cnf
+  notify:
+    – restart mysql
+
+#- name: Create MySQL database
+#  mysql_db:
+#    name: bobdata
+#    state: present
+
+#part_dev: /dev/sdb
+#part_size: 800MiB
+#vg_name: vg_database
+#lv_name: lv_mysql
+#lv_size: 512
+#fs_mount: /mnt/mysql_backups
+#packages:
+#  - mysql-community-server
+#mysql_port: 3306
+

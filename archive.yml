@@ -1,0 +1,21 @@
+---
+
+  - name: Perform archive backup
+    hosts: database
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Create database list file
+        copy:
+          dest: /mnt/mysql_backups/database_list.txt
+          content: "dev,test,qa,prod\n"
+
+      - name: Archive database list file
+        archive:
+          path: /mnt/mysql_backups/database_list.txt
+          dest: /mnt/mysql_backups/archive.gz
+          force_archive: yes
+          format: gz
+

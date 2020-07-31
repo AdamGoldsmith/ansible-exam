@@ -1,0 +1,19 @@
+---
+
+  - name: Install & configure MySQL
+    hosts: database
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Read vars files
+        include_vars:
+          file: "{{ item }}"
+        loop:
+          - "../secret.yml"
+
+      - name: Run mysql role
+        include_role:
+          name: sample-mysql
+

@@ -1,0 +1,38 @@
+---
+
+  - name: Install proxy hosts software packages
+    hosts: proxy
+    gather_facts: yes
+    become: yes
+
+    vars:
+
+      packages:
+        - tcpdump
+        - mailx
+
+    tasks:
+
+      - name: Install packages
+        yum:
+          name: "{{ packages }}"
+          state: present
+
+  - name: Install database hosts software packages
+    hosts: database
+    gather_facts: yes
+    become: yes
+
+    vars:
+
+      packages:
+        - lsof
+        - mailx
+
+    tasks:
+
+      - name: Install packages
+        yum:
+          name: "{{ packages }}"
+          state: present
+

@@ -1,0 +1,8 @@
+---
+# defaults file for sample-apache
+
+role_packages:
+  - httpd
+  - mod_ssl
+  - php
+

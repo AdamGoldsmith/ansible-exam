@@ -1,0 +1,25 @@
+---
+
+  - name: Enable SELinux
+    hosts: webservers
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Install libsemanage-python
+        yum:
+          name: libsemanage-python
+          state: installed
+
+      - name: Enable SELinux
+        selinux:
+          policy: targeted
+          state: enforcing
+
+      - name: Enable httpd_can_network_connect SELinux boolean
+        seboolean:
+          name: httpd_can_network_connect
+          state: yes
+          persistent: yes
+

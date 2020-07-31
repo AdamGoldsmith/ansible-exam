@@ -1,0 +1,36 @@
+---
+
+  - name: Install MySQL
+    hosts: proxy
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Set webserver facts
+        set_fact:
+          haproxy_backend_servers: "{{ haproxy_backend_servers | default([]) + [{
+              'name': item,
+              'address': hostvars[item]['ansible_host'] + ':80'
+            }] }}"
+        loop: "{{ groups['webservers'] }}"
+
+      - name: Debug haproxy_backend_servers
+        debug:
+          var: haproxy_backend_servers
+
+      - name: Run HAProxy role
+        include_role:
+          name: geerlingguy.haproxy
+
+      - name: Configure firewall rules
+        vars:
+          fw_rules:
+            - service: "http"
+        firewalld:
+          port: "{{ item['port'] | default(omit) }}"
+          service: "{{ item['service'] | default(omit) }}"
+          permanent: yes
+          state: enabled
+        loop: "{{ fw_rules }}"
+

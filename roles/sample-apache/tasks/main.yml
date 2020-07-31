@@ -1,0 +1,32 @@
+---
+# tasks file for sample-apache
+
+- name: Install software
+  yum:
+    name: "{{ role_packages }}"
+    state: present
+
+- name: Start Apache
+  service:
+    name: httpd
+    enabled: yes
+    state: started
+
+- name: Configure firewall rules
+  vars:
+    fw_rules:
+      - service: "http"
+      - service: "https"
+  firewalld:
+    port: "{{ item['port'] | default(omit) }}"
+    service: "{{ item['service'] | default(omit) }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ fw_rules }}"
+
+- name: Create Apache configuration file
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: restart apache
+

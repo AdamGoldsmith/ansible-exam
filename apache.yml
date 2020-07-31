@@ -1,0 +1,13 @@
+---
+
+  - name: Install & configure Apache
+    hosts: webservers
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Run apache role
+        include_role:
+          name: sample-apache
+

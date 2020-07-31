@@ -1,0 +1,28 @@
+---
+
+  - name: Create local facts
+    hosts: database
+    gather_facts: yes
+    become: yes
+
+    tasks:
+
+      - name: Create Ansible local facts directory
+        file:
+          state: directory
+          path: /etc/ansible/facts.d
+
+      - name: Create Ansible local facts file
+        copy:
+          dest: /etc/ansible/facts.d/custom.fact
+          content: |
+            [sample_exam]
+            server_role=mysql
+
+      - name: Re-read facts to check
+        setup:
+
+      - name: Debug local fact
+        debug:
+          var: ansible_local.custom.sample_exam
+
