@@ -50,22 +50,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.network "private_network", ip: machine[:ip]
       node.vm.network :forwarded_port, guest: 22, host: machine[:ssh_port], id: 'ssh'
       node.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
-        vb.name = machine[:hostname]
-      end
-      node.vm.provision "file", source: SSH_PUB_KEY, destination: "~/.ssh/authorized_keys"
-    end
-  end
-end
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  servers.each do |machine|
-    config.vm.define machine[:hostname] do |node|
-      node.vm.box = BOX_NAME
-      node.vm.hostname = machine[:hostname]
-      node.vm.network "private_network", ip: machine[:ip]
-      node.vm.network :forwarded_port, guest: 22, host: machine[:ssh_port], id: 'ssh'
-      node.vm.provider "virtualbox" do |vb|
         if machine[:hostname] =~ /^ansible5/
           file_to_disk = machine[:hostname] + ".mysql.vdi"
           unless File.exist?(file_to_disk)
