@@ -136,6 +136,12 @@ Useful commands
 * `ansible-doc --list --type inventory` - list all inventory configurations
 * `ansible-doc yaml --type inventory` - display yaml inventory source information
 
+2. `ansible-config`
+
+* `ansible-config list` - print all config options
+* `ansible-config dump` - dump configuration
+* `ansible-config view` - view configuration file
+
 ## References
 
 * [lvm](https://www.linuxsysadmins.com/creating-logical-volume-using-ansible/)
