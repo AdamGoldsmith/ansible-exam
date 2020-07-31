@@ -6,7 +6,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 ### Create Ansible control machine
 
-1. Created a CentOS 7 VM in VirtualBox
+1. Manually created a CentOS 7 VM in VirtualBox
   * 4096 GB RAM
   * 16 GB VDI
   * 2 x network ports (NAT & Host-Only)
@@ -43,7 +43,9 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 * ansible5.h1.local has a 10GB disk file created for use in a later task
 
 1. `cd vagrant`
-2. `vagrant up`
+2. Copy an SSH public key for post-build connectivity, eg  
+`cp ~/.ssh/id_rsa.pub .`
+3. `vagrant up`
 
 ## Tasks
 
@@ -76,6 +78,8 @@ user_password: devops
 database_password: devops
 ```
 
+[ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
+
 #### Task 6 - Users & groups
 1. ansible-playbook users.yml
 
@@ -103,6 +107,7 @@ __NB__ There are known issues with this playbook
 
 #### Task 15 - Work with Ansible facts
 1. ansible-playbook facts.yml
+
 [facts.d](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#local-facts-facts-d)
 
 #### Task 16 - Software packages
