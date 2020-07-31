@@ -1,6 +1,6 @@
 # EX407 training material
 
-Set of playbooks created to train for Ansible EX407 exam using this [online sample exam](https://www.lisenet.com/2019/ansible-sample-exam-for-ex407/)
+Set of playbooks created to train for Ansible EX407 exam using this [online sample exam](https://www.lisenet.com/2019/ansible-sample-exam-for-ex407/) by Tomas of [Lisenet blog](https://www.lisenet.com/)
 
 ## Preparation
 
@@ -33,6 +33,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 ### Clone the repo
 
 1. `git clone https://github.com/AdamGoldsmith/ansible-exam.git`
+2. `cd ansible-exam`
 
 ### Create Ansible target hosts
 
@@ -46,6 +47,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 2. Copy an SSH public key for post-build connectivity, eg  
 `cp ~/.ssh/id_rsa.pub .`
 3. `vagrant up`
+4. `cd ..`
 
 ## Tasks
 
@@ -55,7 +57,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 3. `mkdir venvs`
 4. `python3 -m venv ~/venvs/ansible`
 5. `source ~/venvs/ansible/bin/activate`
-6. `cd plays`
+6. `cd ansible-exam`
 7. `pip install -r requirements.txt`
 
 #### Task 2 - Ad-hoc commands
