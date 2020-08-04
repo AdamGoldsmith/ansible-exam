@@ -2,8 +2,6 @@ ansible2.hl.local ansible_host=10.1.44.2
 ansible3.hl.local ansible_host=10.1.44.3
 ansible4.hl.local ansible_host=10.1.44.4
 ansible5.hl.local ansible_host=10.1.44.5
-#ansible6.hl.local ansible_host=10.1.44.6
-#ansible7.hl.local ansible_host=10.1.44.7
 
 [proxy]
 ansible2.hl.local
@@ -14,6 +12,3 @@ ansible4.hl.local
 
 [database]
 ansible5.hl.local
-
-#[test]
-#ansible6.hl.local
