@@ -60,40 +60,30 @@
     state: enabled
   loop: "{{ fw_rules }}"
 
-- name: Change MySQL root password
-  mysql_user:
-    name: root
-    check_implicit_admin: yes
-    login_user: root
-    login_password: "{{ database_password }}"
-    priv: '*.*:ALL'
-    state: present
+# Commented out until fixed
+# - name: Change MySQL root password
+#   mysql_user:
+#     name: root
+#     check_implicit_admin: yes
+#     login_user: root
+#     login_password: "{{ database_password }}"
+#     priv: '*.*:ALL'
+#     state: present
 
-- name: Start MySQL
-  service:
-    name: mysql
-    enabled: yes
-    state: started
+# - name: Start MySQL
+#   service:
+#     name: mysql
+#     enabled: yes
+#     state: started
 
-- name: Create MySQL configuration file
-  template:
-    src: my.cnf.j2
-    dest: ~/my.cnf
-  notify:
-    – restart mysql
+# - name: Create MySQL configuration file
+#   template:
+#     src: my.cnf.j2
+#     dest: ~/my.cnf
+#   notify:
+#     – restart mysql
 
 #- name: Create MySQL database
 #  mysql_db:
-#    name: bobdata
+#    name: sampledb
 #    state: present
-
-#part_dev: /dev/sdb
-#part_size: 800MiB
-#vg_name: vg_database
-#lv_name: lv_mysql
-#lv_size: 512
-#fs_mount: /mnt/mysql_backups
-#packages:
-#  - mysql-community-server
-#mysql_port: 3306
-
