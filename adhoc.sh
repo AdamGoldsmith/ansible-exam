@@ -6,6 +6,12 @@
 pubkey_file=~/.ssh/id_rsa.pub
 username="automation"
 
+# Clear out any existing entries from known_hosts file
+for h in 2 3 4 5
+do
+  ssh-keygen -R 10.1.44.${h}
+done
+
 [[ ! -e ${pubkey_file} ]] && echo "No public key (${pubkey_file}) detected, exiting" && exit 1
 
 ansible proxy,webservers,database -u vagrant --private-key ~/.ssh/vagrant_rsa -b -m user -a "name=${username} state=present create_home=yes"
