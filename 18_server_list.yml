@@ -1,7 +1,7 @@
 ---
 
   - name: Create list of servers
-    # Run on all hosts to gather thier facts
+    # Run on all hosts to gather their facts
     hosts: all
     gather_facts: yes
     become: yes
@@ -15,7 +15,25 @@
           owner: automation
           mode: "0600"
           setype: net_conf_t
+        # Loop through & delegate to each member of database group
+        loop: "{{ groups['database'] }}"
+        delegate_to: "{{ item }}"
+        # Only loop through once
+        run_once: yes
+
+      - name: Check contents of created server list
+        slurp:
+          path: /etc/server_list.txt
+        register: slurp_server_list
         loop: "{{ groups['database'] }}"
         delegate_to: "{{ item }}"
         run_once: yes
 
+      - name: Show created list
+        pause:
+          prompt: "{{ item['content'] | b64decode }}"
+          seconds: 1
+        loop: "{{ slurp_server_list['results'] }}"
+        loop_control:
+          label: "{{ item['item'] }}"
+        run_once: yes
