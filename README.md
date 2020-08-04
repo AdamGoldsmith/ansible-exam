@@ -66,10 +66,10 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 ##### TLDR: Run all playbooks
 
-At this point, as these playbooks are prefixed with numeric task number, the following command can be used to run all playbooks in the correct order:
+At this point, as these playbooks are prefixed with numeric task number, the following command can be used to run all playbooks in the correct order while ignoring ones known to fail (`secret.yml` isn't a playbook so exclude it also):
 
 ```
-ansible-playbook *.yml
+ansible-playbook !(09*|secret*).yml
 ```
 
 or you can choose to run them individually by skipping this command and running each of the following task's playbooks as follows.
