@@ -51,6 +51,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 ## Tasks
 
+
 #### Task 1 - Install Ansible in virtual environment
 1. Login as automation user
 2. `sudo yum install python3 -y`
@@ -63,13 +64,24 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 #### Task 2 - Ad-hoc commands
 1. `./adhoc.sh`
 
+##### TLDR: Run all playbooks
+
+At this point, as these playbooks are prefixed with numeric task number, the following command can be used to run all playbooks in the correct order:
+
+```
+ansible-playbook *.yml
+```
+
+or you can choose to run them individually by skipping this command and running each of the following task's playbooks as follows.
+
 #### Task 3 - File content
-1. ansible-playbook motd.yml
+1. `ansible-playbook 03_motd.yml`
 
 #### Task 4 - Configure SSH Server
-1. ansible-playbook sshd.yml
+1. `ansible-playbook 04_sshd.yml`
 
 #### Task 5 - Ansible vault
+These tasks have already been completed and the resultant files have been included in the repo.
 1. `echo "devops" > vault_key`
 2. `chmod 600 vault_key`
 3. `ansible-vault create secret.yml`
@@ -83,47 +95,50 @@ database_password: devops
 [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 #### Task 6 - Users & groups
-1. ansible-playbook users.yml
+1. `ansible-playbook 06_users.yml`
 
 #### Task 7 - Scheduled tasks
-1. ansible-playbook redular_tasks.yml
+1. `ansible-playbook 07_regular_tasks.yml`
 
 #### Task 8 - Software repositories
-1. ansible-playbook repository.yml
+1. `ansible-playbook 08_repository.yml`
 
-#### Task 10 - Create and work with roles
-1. ansible-playbook mysql.yml
+#### Task 09 - Create and work with roles
+1. `ansible-playbook 09_mysql.yml`
 __NB__ There are known issues with this playbook
 
+#### Task 10 - Create and work with roles (some more)
+1. `ansible-playbook 10_apache.yml`
+
 #### Task 11 - Download roles from Ansible Galaxy
-1. ansible-playbook haproxy.yml
+1. `ansible-playbook 11_haproxy.yml`
 
 #### Task 12 - Security
-1. ansible-playbook selinux.yml
+1. `ansible-playbook 12_selinux.yml`
 
 #### Task 13 - Use conditionals to control play execution
-1. ansible-playbook sysctl.yml
+1. `ansible-playbook 13_sysctl.yml`
 
 #### Task 14 - Use archiving
-1. ansible-playbook archive.yml
+1. `ansible-playbook 14_archive.yml`
 
 #### Task 15 - Work with Ansible facts
-1. ansible-playbook facts.yml
+1. `ansible-playbook 15_facts.yml`
 
 [facts.d](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#local-facts-facts-d)
 
 #### Task 16 - Software packages
-1. ansible-playbook packages.yml
+1. `ansible-playbook 16_packages.yml`
 
 #### Task 17 - Services
 __NB__ Not completed yet
 
 #### Task 18 - Create and use templates to create customised configuration files
-1. ansible-playbook server_list.yml
+1. `ansible-playbook 18_server_list.yml`
 
 ## Known issues
 
-1. Task 10 - MySQL problems with python version and CentOS
+1. Task 09 - MySQL problems with python version and CentOS
 2. Task 17 - Not completed yet
 
 ## Documentation
