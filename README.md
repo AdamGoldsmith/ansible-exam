@@ -6,13 +6,15 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 ### Create Ansible control machine
 
-1. Manually created a CentOS 7 VM in VirtualBox
+Either use __WSL__ (Windows Subsystem for Linux) as your Ansible control machine, or use a VM as documented below:
+
+1. Manually create a CentOS 7 VM in VirtualBox
   * 4096 GB RAM
   * 16 GB VDI
   * 2 x network ports (NAT & Host-Only)
-2. VirtualBox NAT Port Forward rule “SSH 127.0.0.1:2222 10.0.2.15:22”
+2. VirtualBox NAT Port Forward rule "SSH 127.0.0.1:2222 10.0.2.15:22"
 3. Login as root
-4. Created automation group & user
+4. Create automation group & user
   * `groupadd automation`
   * `useradd -m -g automation automation`
 5. Populate authorized_keys file
@@ -29,6 +31,7 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 9. Update system
   * `sudo yum update -y`
   * `sudo reboot`
+
 
 ### Clone the repo
 
@@ -66,10 +69,10 @@ Set of playbooks created to train for Ansible EX407 exam using this [online samp
 
 ##### TLDR: Run all playbooks
 
-At this point, as these playbooks are prefixed with numeric task number, the following command can be used to run all playbooks in the correct order while ignoring ones known to fail (`secret.yml` isn't a playbook so exclude it also):
+At this point, as these playbooks are prefixed with numeric task number, the following command can be used to run all playbooks in the correct order:
 
 ```
-ansible-playbook !(09*|secret*).yml
+ansible-playbook [0-9]*.yml
 ```
 
 or you can choose to run them individually by skipping this command and running each of the following task's playbooks as follows.
