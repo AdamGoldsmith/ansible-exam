@@ -11,6 +11,8 @@
         fail:
           msg: "Server memory less than 2048MB"
         when: ansible_memtotal_mb < 2048
+        # Show failure message, but do not hard fail
+        ignore_errors: yes
 
       - name: Configure vm.swapiness
         sysctl:
