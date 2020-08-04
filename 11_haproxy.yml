@@ -34,3 +34,14 @@
           state: enabled
         loop: "{{ fw_rules }}"
 
+      - name: Check haproxy is working
+        uri:
+          url: "http://{{ ansible_host }}"
+          return_content: yes
+        loop: "{{ range(0, 2) | list }}"
+        register: uri_haproxy
+        failed_when: "'The address of the server is' not in uri_haproxy['content']"
+
+      - name: Show output of load-balanced requests
+        debug:
+          msg: "{{ uri_haproxy['results'] | map(attribute='content') | list }}"
