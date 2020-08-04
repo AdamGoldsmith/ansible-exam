@@ -38,7 +38,7 @@ servers=[
     :hostname => "ansible5" + DOMAIN,
     :ip => INTERNAL_NET + "5",
     :ssh_port => "22225",
-    :ram => 1024
+    :ram => 3072
   }
 ]
 
