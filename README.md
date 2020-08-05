@@ -41,10 +41,10 @@ Either use __WSL__ (Windows Subsystem for Linux) as your Ansible control machine
 ### Create Ansible target hosts
 
 * Uses Vagrant + VirtualBox to create CentOS 7 Ansible targets.
-* They are named ansible[2-5].h1.local
+* They are named ansible[2-5].hl.local
 * 2 x network adapters are created (NAT & Host-Only)
 * IP addresses 10.1.44.[2-5] are assigned to them respectively
-* ansible5.h1.local has a 10GB disk file created for use in a later task
+* ansible5.hl.local has a 10GB disk file created for use in a later task
 
 1. `cd vagrant`
 2. Copy an SSH public key for post-build connectivity, eg  
