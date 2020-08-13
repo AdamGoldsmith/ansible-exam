@@ -26,3 +26,10 @@
           line: "{{ item['string'] }}"
         loop: "{{ data }}"
 
+    handlers:
+
+      - name: restart SSH daemon
+        service:
+          name: sshd
+          state: restarted
+        listen: "restart ssh"
