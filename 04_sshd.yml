@@ -25,6 +25,7 @@
           regex: "{{ item['regex'] }}"
           line: "{{ item['string'] }}"
         loop: "{{ data }}"
+        notify: "restart ssh"
 
     handlers:
 
