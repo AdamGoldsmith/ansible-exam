@@ -45,7 +45,7 @@
   mount:
     path: "{{ fs_mount }}"
     src: "/dev/{{ vg_name }}/{{ lv_name }}"
-    fstype: xfs
+    fstype: "{{ fs_type }}"
     state: mounted
 
 - name: Configure firewall rules
