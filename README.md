@@ -62,7 +62,8 @@ Either use __WSL__ (Windows Subsystem for Linux) as your Ansible control machine
 4. `python3 -m venv ~/venvs/ansible`
 5. `source ~/venvs/ansible/bin/activate`
 6. `cd ansible-exam`
-7. `pip install -r requirements.txt`
+7. `pip install pip --upgrade`
+8. `pip install -r requirements.txt`
 
 #### Task 2 - Ad-hoc commands
 1. `./adhoc.sh`
