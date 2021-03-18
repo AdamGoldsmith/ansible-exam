@@ -16,7 +16,7 @@ done
 
 ansible proxy,webservers,database -u vagrant --private-key ~/.ssh/vagrant_rsa -b -m user -a "name=${username} state=present create_home=yes"
 ansible proxy,webservers,database -u vagrant --private-key ~/.ssh/vagrant_rsa -b -m authorized_key -a "user=${username} state=present key={{ lookup('file', '${pubkey_file}') }}"
-ansible proxy,webservers,database -u vagrant --private-key ~/.ssh/vagrant_rsa -b -m lineinfile -a "path=/etc/sudoers line='automation ALL=(ALL) NOPASSWD: ALL'"
+ansible proxy,webservers,database -u vagrant --private-key ~/.ssh/vagrant_rsa -b -m lineinfile -a "path=/etc/sudoers line=\""$username" ALL=(ALL) NOPASSWD: ALL\""
 
 # Install Geerlingguy's HAProxy Ansible role
 # Has to be run in the "plays" directory where the roles_path is condifured in ansible.cfg
